@@ -21,6 +21,9 @@ namespace Sparky
         public bool Deposit (int amount)
         {
             _logBook.Message("Deposit invoked");
+            _logBook.Message("Test");
+            _logBook.LogSeverity = 100;
+            var temp = _logBook.LogSeverity;
             balance += amount;
             return true;
         }

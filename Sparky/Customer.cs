@@ -3,16 +3,42 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Sparky.Customer;
 
 namespace Sparky
 {
-    public class Customer
+    public interface ICustomer
     {
-        public int Discount = 15;
+         int Discount { get; set; }
+
+         int OrderTotal { get; set; }
+
+         string GreetMessage { get; set; }
+
+         bool IsPlatimun { get; set; }
+
+         string GreetAndCombineNames(string firstName, string lastName);
+
+        CustomerType GetCustomerDetails();
+    }
+
+        public class Customer: ICustomer
+    {
+        public int Discount { get; set; }
 
         public int OrderTotal { get; set; }
 
         public string GreetMessage { get; set; }
+
+        public bool IsPlatimun { get; set; }
+        int ICustomer.Discount { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+        public Customer()
+        {
+            Discount = 15;
+            IsPlatimun= false;
+        }
+
         public string GreetAndCombineNames(string firstName, string lastName)
         {
             if (string.IsNullOrWhiteSpace(firstName))

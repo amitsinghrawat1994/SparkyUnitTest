@@ -12,4 +12,11 @@
             Console.WriteLine(message);
         }
     }
+
+    public class LogFakker : ILogBook
+    {
+        public void Message(string message)
+        {
+        }
+    }
 }

@@ -1,0 +1,5 @@
+https://www.udemy.com/course/complete-guide-to-unit-testing-in-net-core-nunit-xunit/
+
+07-11-2022: 
+	23. Asserting String Values
+	26. Global Initialization for Class

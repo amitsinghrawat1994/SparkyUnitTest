@@ -1,42 +1,41 @@
-﻿//using NUnit.Framework;
-//using Sparky;
+﻿using Sparky;
+using Xunit;
 
-//namespace SparkyXUnit
-//{
+namespace SparkyXUnit
+{
 
-//    [TestFixture]
-//    public class FiboXUnitTest
-//    {
-//        [Test]
-//        public void FiboChecker_Input1_ReturnFiboSeries()
-//        {
-//            List<int> exptectedRange = new List<int> { 0 };
+    public class FiboXUnitTest
+    {
+        [Fact]
+        public void FiboChecker_Input1_ReturnFiboSeries()
+        {
+            List<int> exptectedRange = new List<int> { 0 };
 
-//            Fibo fibo = new();
-//            fibo.Range = 1;
+            Fibo fibo = new();
+            fibo.Range = 1;
 
-//            List<int> result = fibo.GetFiboSeries();
+            List<int> result = fibo.GetFiboSeries();
 
-//            Assert.That(result, Is.Not.Empty);
-//            Assert.That(result, Is.Ordered);
-//            Assert.That(result, Is.EquivalentTo(exptectedRange));
-//        }
+            Assert.NotEmpty(result);
+            Assert.Equal(exptectedRange.OrderBy(x => x), result);
+            Assert.True(result.SequenceEqual(exptectedRange));
+        }
 
-//        [Test]
-//        public void FiboChecker_Input6_ReturnFiboSeries()
-//        {
-//            List<int> exptectedRange = new List<int> { 0, 1, 1, 2, 3, 5 };
+        [Fact]
+        public void FiboChecker_Input6_ReturnFiboSeries()
+        {
+            List<int> exptectedRange = new List<int> { 0, 1, 1, 2, 3, 5 };
 
-//            Fibo fibo = new();
-//            fibo.Range = 6;
+            Fibo fibo = new();
+            fibo.Range = 6;
 
-//            List<int> result = fibo.GetFiboSeries();
+            List<int> result = fibo.GetFiboSeries();
 
-//            Assert.That(result, Does.Contain(3));
-//            Assert.That(result.Count, Is.EqualTo(6));
-//            Assert.That(result, Is.EquivalentTo(exptectedRange));
-//            Assert.That(result, Has.No.Member(4));
-//        }
+            Assert.Contains(3, result);
+            Assert.Equal(6, result.Count);
+            Assert.DoesNotContain(4, result);
+            Assert.Equal(result, exptectedRange);
+        }
 
-//    }
-//}
+    }
+}

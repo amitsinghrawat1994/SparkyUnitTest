@@ -7,3 +7,4 @@ https://www.udemy.com/course/complete-guide-to-unit-testing-in-net-core-nunit-xu
 11-11-2022
 	61. Xunit Calculator Part 2
 	65. Assignment 5 - Fibo Series XUnit Solution
+	66. MOQ and Xunit

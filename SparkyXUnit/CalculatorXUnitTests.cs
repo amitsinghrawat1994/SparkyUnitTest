@@ -57,41 +57,41 @@ namespace SparkyXUnit
             Assert.Equal(exptectedResult, result);
         }
 
-        //[Theory]
-        //[InlineData(5.4, 10.5)]
+        [Theory]
+        [InlineData(5.4, 10.5)]
         //[InlineData(5.43, 10.53)]
         //[InlineData(5.49, 10.59)]
-        //public void AddNumbers_InputTwoDouble_GetCorrectAddition(double a, double b)
-        //{
-        //    //Arrange
-        //    Calculator calc = new();
+        public void AddNumbers_InputTwoDouble_GetCorrectAddition(double a, double b)
+        {
+            //Arrange
+            Calculator calc = new();
 
-        //    //Act
-        //    double result = calc.AddNumbersDoubles(a, b);
+            //Act
+            double result = calc.AddNumbersDoubles(a, b);
 
-        //    //Assert
-        //    Assert.AreEqual(15.9, result, .2);
-        //}
+            //Assert
+            Assert.Equal(15.9, result, 1);
+        }
 
-        //[Fact]
-        //public void OddRanger_InputMinAndMaxRange_ReturnValidOddNumberRange()
-        //{
-        //    Calculator calc = new();
-        //    List<int> exptectedOddRange = new() { 5, 7, 9 };  //5-10
+        [Fact]
+        public void OddRanger_InputMinAndMaxRange_ReturnValidOddNumberRange()
+        {
+            Calculator calc = new();
+            List<int> exptectedOddRange = new() { 5, 7, 9 };  //5-10
 
-        //    // Act
-        //    List<int> result = calc.GetOddRange(5, 10);
+            // Act
+            List<int> result = calc.GetOddRange(5, 10);
 
-        //    // Assert
-        //    Assert.That(result, Is.EquivalentTo(exptectedOddRange));
-        //    //Assert.AreEqual(exptectedOddRange, result);
-        //    //Assert.Contains(7, result);
-        //    Assert.That(result, Does.Contain(7));
-        //    Assert.That(result, Is.Not.Empty);
-        //    Assert.That(result.Count, Is.EqualTo(3));
-        //    Assert.That(result, Has.No.Member(6));
-        //    Assert.That(result, Is.Ordered.Ascending);
-        //    Assert.That(result, Is.Unique);
-        //}
+            // Assert
+            Assert.Equal(exptectedOddRange, result);
+            //Assert.AreEqual(exptectedOddRange, result);
+            //Assert.Contains(7, result);
+            Assert.Contains(7, result);
+            Assert.NotEmpty(result);
+            Assert.Equal(3 ,result.Count);
+            Assert.DoesNotContain(6, result);
+            Assert.Equal(result.OrderBy(u => u), result);
+            //Assert.That(result, Is.Unique);
+        }
     }
 }

@@ -1,109 +1,100 @@
-﻿//using NUnit.Framework;
-//using Sparky;
-//using static Sparky.Customer;
+﻿
 
-//namespace SparkyXUnit
-//{
-//    [TestFixture]
-//    public class CustomerXUnitTest
-//    {
-//        private Customer customer;
-//        [SetUp]
-//        public void Setup()
-//        {
-//            customer = new Customer();
-//        }
+using Sparky;
+using Xunit;
+using static Sparky.Customer;
 
-//        [Test]
-//        public void CombineName_InputFirstAndLastName_ReturnFullName()
-//        {
-//            customer.GreetAndCombineNames("Ben", "Spark");
-
-//            //
-//            Assert.Multiple(() =>
-//            {
-//                Assert.AreEqual(customer.GreetMessage, "Hello, Ben Spark");
-//                Assert.That(customer.GreetMessage, Is.EqualTo("Hello, Ben Spark"));
-//                Assert.That(customer.GreetMessage, Does.Contain(","));
-//                Assert.That(customer.GreetMessage, Does.StartWith("Hello,"));
-//                Assert.That(customer.GreetMessage, Does.EndWith("Spark"));
-//                Assert.That(customer.GreetMessage, Does.Match("Hello, [A-Z]{1}[a-z]+ [A-Z]{1}[a-z]+"));
-
-//            });
-//          }
+namespace SparkyXUnit
+{
+    public class CustomerXUnitTest
+    {
+        private Customer customer;
        
+        public  CustomerXUnitTest()
+        {
+            customer = new Customer();
+        }
 
-//        [Test]
-//        public void GreetMessage_NotGreeted_ReturnNull()
-//        {
-//            // arrange
+        [Fact]
+        public void CombineName_InputFirstAndLastName_ReturnFullName()
+        {
+            customer.GreetAndCombineNames("Ben", "Spark");
 
-//            // act
+            Assert.Equal("Hello, Ben Spark", customer.GreetMessage );
+            Assert.Contains("ben Spark".ToLower() , customer.GreetMessage.ToLower());
+            Assert.StartsWith("Hello,", customer.GreetMessage);
+            Assert.EndsWith("Spark", customer.GreetMessage);
+            Assert.Matches("Hello, [A-Z]{1}[a-z]+ [A-Z]{1}[a-z]+", customer.GreetMessage);
+        }
 
-//            // assert
-//            Assert.IsNull(customer.GreetMessage);
-//        }
 
-//        [Test]
-//        public void DiscountCheck_DefaultCustomer_ReturnDiscountInRange()
-//        {
-//            int result = customer.Discount;
+        [Fact]
+        public void GreetMessage_NotGreeted_ReturnNull()
+        {
+            // arrange
 
-//            Assert.That(result, Is.InRange(10, 25));
-//        }
+            // act
 
-//        [Test]
-//        public void GreetMessage_GreetedWithoutLastName_ReturnNotNull()
-//        {
-//            customer.GreetAndCombineNames("ben", "");
+            // assert
+            Assert.Null(customer.GreetMessage);
+        }
 
-//            Assert.IsNotNull(customer.GreetMessage);
+        [Fact]
+        public void DiscountCheck_DefaultCustomer_ReturnDiscountInRange()
+        {
+            int result = customer.Discount;
 
-//            Assert.IsFalse(string.IsNullOrEmpty(customer.GreetMessage));
-//        }
+            Assert.InRange(result, 10, 25);
+        }
 
-//        [Test]
-//        public void GreetChecker_EmptyFirstName_ThrowsException()
-//        {
-//            var excetionDetails = Assert.Throws<ArgumentException>(() =>
-//            {
-//                customer.GreetAndCombineNames("", "Spark");
-//            });
+        [Fact]
+        public void GreetMessage_GreetedWithoutLastName_ReturnNotNull()
+        {
+            customer.GreetAndCombineNames("ben", "");
 
-//            //Assert.AreEqual("Empty First Name", excetionDetails.Message);
-            
-//            //Assert.That(() => customer.GreetAndCombineNames("", "spark")
-//            //, Throws.ArgumentException.With.Message.EqualTo("Empty First Name")
-//            //    );
+            Assert.NotNull(customer.GreetMessage);
 
-//            Assert.Throws<ArgumentException>(() =>
-//            {
-//                customer.GreetAndCombineNames("", "Spark");
-//            });
+            Assert.False(string.IsNullOrEmpty(customer.GreetMessage));
+        }
 
-//            Assert.That(() => customer.GreetAndCombineNames("", "spark")
-//          , Throws.ArgumentException
-//              );
-//        }
+        [Fact]
+        public void GreetChecker_EmptyFirstName_ThrowsException()
+        {
+            var excetionDetails = Assert.Throws<ArgumentException>(() =>
+            {
+                customer.GreetAndCombineNames("", "Spark");
+            });
 
-//        [Test]
-//        public void CustomerType_CreateCustomerwithLessThen100Order_ReturnBasicCustomer ()
-//        {
-//            customer.OrderTotal = 10;
+            Assert.Equal("Empty First Name", excetionDetails.Message);
 
-//            var result = customer.GetCustomerDetails();
+            //Assert.That(() => customer.GreetAndCombineNames("", "spark")
+            //, Throws.ArgumentException.With.Message.EqualTo("Empty First Name")
+            //    );
 
-//            Assert.That(result, Is.TypeOf<BasicCustomer>());
-//        }
+            Assert.Throws<ArgumentException>(() =>
+            {
+                customer.GreetAndCombineNames("", "Spark");
+            });
+        }
 
-//        [Test]
-//        public void CustomerType_CreateCustomerwithMoreThen100Order_ReturnBasicCustomer()
-//        {
-//            customer.OrderTotal = 110;
+        [Fact]
+        public void CustomerType_CreateCustomerwithLessThen100Order_ReturnBasicCustomer()
+        {
+            customer.OrderTotal = 10;
 
-//            var result = customer.GetCustomerDetails();
+            var result = customer.GetCustomerDetails();
 
-//            Assert.That(result, Is.TypeOf<PlatiumCustomer>());
-//        }
-//    }
-//}
+            Assert.IsType<BasicCustomer>(result);
+        }
+
+        [Fact]
+        public void CustomerType_CreateCustomerwithMoreThen100Order_ReturnBasicCustomer()
+        {
+            customer.OrderTotal = 110;
+
+            var result = customer.GetCustomerDetails();
+
+            Assert.IsType<PlatiumCustomer>(result);
+        }
+    }
+}

@@ -8,3 +8,4 @@ https://www.udemy.com/course/complete-guide-to-unit-testing-in-net-core-nunit-xu
 	61. Xunit Calculator Part 2
 	65. Assignment 5 - Fibo Series XUnit Solution
 	66. MOQ and Xunit
+	72. Bongo Models Date Checker Part 2

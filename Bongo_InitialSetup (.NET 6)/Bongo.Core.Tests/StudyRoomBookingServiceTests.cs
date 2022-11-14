@@ -3,6 +3,7 @@
 using Bongo.Core.Services;
 using Bongo.DataAccess.Repository.IRepository;
 using Bongo.Models.Model;
+using Bongo.Models.Model.VM;
 using Moq;
 using NUnit.Framework;
 
@@ -35,11 +36,11 @@ namespace Bongo.Core.Tests
                     Id = 10,
                     RoomName = "Michigan",
                     RoomNumber = "A202"
-                } 
+                }
             };
 
             _studyRoomBookingRepoMock = new Mock<IStudyRoomBookingRepository>();
-            
+
             _studyRoomRepoMock = new Mock<IStudyRoomRepository>();
             _studyRoomRepoMock.Setup(x => x.GetAll())
                 .Returns(_availalbeStudyRoom);
@@ -93,5 +94,61 @@ namespace Bongo.Core.Tests
             Assert.AreEqual(_availalbeStudyRoom.First().Id, saveStudyRoomBooking.StudyRoomId);
         }
 
+        [Test]
+        public void StudyRoomBookingResultCheck_InputRequest_ValuesMatchInResult()
+        {
+            StudyRoomBookingResult result = _bookingService.BookStudyRoom(_request);
+
+            Assert.NotNull(result);
+
+            Assert.AreEqual(_request.FirstName, result.FirstName);
+            Assert.AreEqual(_request.LastName, result.LastName);
+        }
+
+        [TestCase(true, ExpectedResult = StudyRoomBookingCode.Success)]
+        [TestCase(false, ExpectedResult = StudyRoomBookingCode.NoRoomAvailable)]
+
+        public StudyRoomBookingCode ResultCodeSucces_RoomAvability_ReturnSuccessResultCode(bool roomAvailabllity)
+        {
+            if (!roomAvailabllity)
+            {
+                _availalbeStudyRoom.Clear();
+            }
+
+            //Assert.AreEqual(StudyRoomBookingCode.Success, result.Code); 
+            return _bookingService.BookStudyRoom(_request).Code;
+        }
+
+        [TestCase(0, false)]
+        [TestCase(55, true)]
+        public void StudyRoomBooking_BookRoomWithAvailality_ReturnBookingId(int expectedBookingId, bool roomAvailabiltiy)
+        {
+            if (!roomAvailabiltiy)
+            {
+                _availalbeStudyRoom.Clear();
+            }
+
+            //asert
+
+            _studyRoomBookingRepoMock.Setup(x => x.Book(It.IsAny<StudyRoomBooking>()))
+                .Callback<StudyRoomBooking>(booking =>
+                {
+                    booking.BookingId = 55;
+                });
+
+            var result = _bookingService.BookStudyRoom(_request);
+
+            Assert.AreEqual(expectedBookingId, result.BookingId);
+        }
+
+        [Test]
+        public void BookNotInvoked_SaveBookingWithoutAvailableRoom_BookNethodNotInvoked()
+        {
+                _availalbeStudyRoom.Clear();
+
+            var result = _bookingService.BookStudyRoom(_request);
+
+           _studyRoomBookingRepoMock.Verify(x => x.Book(It.IsAny<StudyRoomBooking>()), Times.Never);
+        }
     }
 }

@@ -9,3 +9,6 @@ https://www.udemy.com/course/complete-guide-to-unit-testing-in-net-core-nunit-xu
 	65. Assignment 5 - Fibo Series XUnit Solution
 	66. MOQ and Xunit
 	72. Bongo Models Date Checker Part 2
+
+14-11-2022
+	82. 16 Bongo Core Return Code TestCase
